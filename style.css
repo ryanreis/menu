@@ -135,6 +135,10 @@ section {
     padding: 2rem 0;
 }
 
+#contato {
+    padding: 2rem 1rem;
+}
+
 /* Seção home com mapa mental */
 #home {
     position: relative;
@@ -444,12 +448,73 @@ h2 {
     transform: translateY(-2px) scale(1.03);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .contato-form {
-        max-width: 95vw;
-        padding: 1.2rem 0.5rem 1rem 0.5rem;
+        max-width: 90vw;
+        padding: 1.5rem 1rem 1rem 1rem;
+        margin: 1rem auto 0 auto;
     }
+    
+    .contato-form label {
+        font-size: 0.9rem;
+    }
+    
+    .contato-form input,
+    .contato-form textarea {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
     .contato-form button {
         font-size: 1rem;
+        padding: 0.8rem 0;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contato-form {
+        max-width: 95vw;
+        padding: 1.2rem 0.8rem 1rem 0.8rem;
+    }
+    
+    .contato-form input,
+    .contato-form textarea {
+        padding: 0.6rem 0.7rem;
+        font-size: 0.85rem;
+    }
+    
+    .contato-form button {
+        font-size: 0.9rem;
+        padding: 0.7rem 0;
+    }
+    
+    #contato {
+        padding: 1.5rem 0.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .contato-form {
+        max-width: 98vw;
+        padding: 1rem 0.6rem 0.8rem 0.6rem;
+    }
+    
+    .contato-form label {
+        font-size: 0.8rem;
+    }
+    
+    .contato-form input,
+    .contato-form textarea {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+    }
+    
+    .contato-form button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0;
     }
 }
