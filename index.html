@@ -100,14 +100,13 @@
 
         <section id="contato">
             <h2>Entre em Contato</h2>
-            <p>Esta é a seção de contato do site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
-            <p>Esta é a página inicial do seu site.</p>
+            <form class="contato-form" id="contatoForm" autocomplete="off">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                <label for="mensagem">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" rows="4" placeholder="Digite sua mensagem" required></textarea>
+                <button type="submit">Enviar para WhatsApp</button>
+            </form>
         </section>
     </main>
 

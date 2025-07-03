@@ -385,3 +385,71 @@ h2 {
         top: 75%;
     }
 }
+
+/* Formulário de contato minimalista */
+.contato-form {
+    max-width: 400px;
+    margin: 2rem auto 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(102, 126, 234, 0.10);
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contato-form label {
+    font-size: 1rem;
+    color: #764ba2;
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+}
+
+.contato-form input,
+.contato-form textarea {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    background: #f8f8fa;
+    color: #333;
+    outline: none;
+    transition: border 0.2s;
+    resize: none;
+}
+
+.contato-form input:focus,
+.contato-form textarea:focus {
+    border: 1.5px solid #667eea;
+    background: #fff;
+}
+
+.contato-form button {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
+}
+
+.contato-form button:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 600px) {
+    .contato-form {
+        max-width: 95vw;
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+    }
+    .contato-form button {
+        font-size: 1rem;
+    }
+}

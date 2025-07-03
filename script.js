@@ -156,4 +156,18 @@ window.addEventListener('resize', () => {
 // Recalcular posições quando a orientação do dispositivo mudar
 window.addEventListener('orientationchange', () => {
     setTimeout(recalculateOriginalPositions, 300);
-}); 
+});
+
+// Formulário de contato para WhatsApp
+const contatoForm = document.getElementById('contatoForm');
+if (contatoForm) {
+    contatoForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value.trim();
+        const mensagem = document.getElementById('mensagem').value.trim();
+        const numero = '94984046320';
+        const texto = `Olá, me chamo ${nome}. ${mensagem}`;
+        const url = `https://wa.me/55${numero}?text=${encodeURIComponent(texto)}`;
+        window.open(url, '_blank');
+    });
+} 
