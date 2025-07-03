@@ -52,6 +52,7 @@ window.addEventListener('scroll', () => {
     if (mapaContainer) {
         const rect = mapaContainer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
+        const isMobile = window.innerWidth <= 768;
         
         // Calcular progresso do scroll (0 a 1)
         const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight + rect.height)));
@@ -72,8 +73,8 @@ window.addEventListener('scroll', () => {
                 // Aplicar transformação progressiva
                 item.style.transform = `translate(${currentLeft - 50}%, ${currentTop - 50}%)`;
                 
-                // Escala progressiva da imagem
-                const scale = 1 - (progress * 0.8);
+                // Escala progressiva da imagem (ajustada para mobile)
+                const scale = isMobile ? (1 - (progress * 0.9)) : (1 - (progress * 0.8));
                 const opacity = 1 - progress;
                 
                 const img = item.querySelector('img');
@@ -84,9 +85,9 @@ window.addEventListener('scroll', () => {
             }
         });
         
-        // Animar imagem central
+        // Animar imagem central (ajustada para mobile)
         if (imagemCentral) {
-            const centralScale = 1 + (progress * 0.5);
+            const centralScale = isMobile ? (1 + (progress * 0.3)) : (1 + (progress * 0.5));
             imagemCentral.style.transform = `scale(${centralScale})`;
         }
     }
@@ -115,19 +116,34 @@ function animateMapaMental() {
 // Armazenar posições originais dos itens
 let originalPositions = [];
 
-// Inicializar animações
-document.addEventListener('DOMContentLoaded', () => {
-    animateMapaMental();
-    
-    // Armazenar posições originais
+// Função para recalcular posições originais
+function recalculateOriginalPositions() {
+    originalPositions = [];
     const mapaItems = document.querySelectorAll('.mapa-item');
+    const containerRect = document.querySelector('.mapa-container').getBoundingClientRect();
+    
     mapaItems.forEach((item) => {
         const rect = item.getBoundingClientRect();
-        const containerRect = document.querySelector('.mapa-container').getBoundingClientRect();
-        
         originalPositions.push({
             top: ((rect.top - containerRect.top) / containerRect.height) * 100,
             left: ((rect.left - containerRect.left) / containerRect.width) * 100
         });
     });
+}
+
+// Inicializar animações
+document.addEventListener('DOMContentLoaded', () => {
+    animateMapaMental();
+    // Pequeno delay para garantir que o layout esteja pronto, especialmente no mobile
+    setTimeout(recalculateOriginalPositions, 200);
+});
+
+// Recalcular posições quando a tela for redimensionada
+window.addEventListener('resize', () => {
+    setTimeout(recalculateOriginalPositions, 100);
+});
+
+// Recalcular posições quando a orientação do dispositivo mudar
+window.addEventListener('orientationchange', () => {
+    setTimeout(recalculateOriginalPositions, 300);
 }); 
