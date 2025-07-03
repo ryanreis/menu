@@ -55,29 +55,35 @@ window.addEventListener('scroll', () => {
         const isMobile = window.innerWidth <= 768;
         
         // Calcular progresso do scroll (0 a 1)
-        const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight + rect.height)));
+        let progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight + rect.height)));
+        // Só começa a animar depois de 10% do scroll
+        const start = 0.1;
+        if (progress < start) progress = 0;
+        else progress = (progress - start) / (1 - start);
+        progress = Math.max(0, Math.min(1, progress));
         
         // Aplicar transformações progressivas baseadas no progresso
         const mapaItems = document.querySelectorAll('.mapa-item');
         const imagemCentral = document.querySelector('.imagem-central img');
         
-        mapaItems.forEach((item, index) => {
-            if (originalPositions[index]) {
-                const originalTop = originalPositions[index].top;
-                const originalLeft = originalPositions[index].left;
-                
-                // Calcular posição progressiva (do original para o centro)
-                const currentTop = progress * 50 + (1 - progress) * originalTop;
-                const currentLeft = progress * 50 + (1 - progress) * originalLeft;
-                
-                // Aplicar transformação progressiva
-                item.style.transform = `translate(${currentLeft - 50}%, ${currentTop - 50}%)`;
-                
-                // Escala progressiva da imagem (ajustada para mobile)
+        mapaItems.forEach((item) => {
+            const img = item.querySelector('img');
+            if (progress === 0) {
+                // Estado inicial exato
+                if (img) {
+                    img.style.transform = '';
+                    img.style.opacity = 1;
+                }
+            } else if (progress === 1) {
+                // Estado final exato (tudo no centro e invisível)
+                if (img) {
+                    img.style.transform = 'scale(0.2)';
+                    img.style.opacity = 0;
+                }
+            } else {
+                // Estado intermediário
                 const scale = isMobile ? (1 - (progress * 0.9)) : (1 - (progress * 0.8));
                 const opacity = 1 - progress;
-                
-                const img = item.querySelector('img');
                 if (img) {
                     img.style.transform = `scale(${scale})`;
                     img.style.opacity = opacity;
@@ -87,8 +93,12 @@ window.addEventListener('scroll', () => {
         
         // Animar imagem central (ajustada para mobile)
         if (imagemCentral) {
-            const centralScale = isMobile ? (1 + (progress * 0.3)) : (1 + (progress * 0.5));
-            imagemCentral.style.transform = `scale(${centralScale})`;
+            if (progress === 0) {
+                imagemCentral.style.transform = '';
+            } else {
+                const centralScale = isMobile ? (1 + (progress * 0.3)) : (1 + (progress * 0.5));
+                imagemCentral.style.transform = `scale(${centralScale})`;
+            }
         }
     }
 });
