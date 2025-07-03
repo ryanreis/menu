@@ -46,4 +46,88 @@ window.addEventListener('scroll', () => {
             link.classList.add('active');
         }
     });
+
+    // Animação progressiva do mapa mental baseada no scroll
+    const mapaContainer = document.querySelector('.mapa-container');
+    if (mapaContainer) {
+        const rect = mapaContainer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Calcular progresso do scroll (0 a 1)
+        const progress = Math.max(0, Math.min(1, (windowHeight - rect.top) / (windowHeight + rect.height)));
+        
+        // Aplicar transformações progressivas baseadas no progresso
+        const mapaItems = document.querySelectorAll('.mapa-item');
+        const imagemCentral = document.querySelector('.imagem-central img');
+        
+        mapaItems.forEach((item, index) => {
+            if (originalPositions[index]) {
+                const originalTop = originalPositions[index].top;
+                const originalLeft = originalPositions[index].left;
+                
+                // Calcular posição progressiva (do original para o centro)
+                const currentTop = progress * 50 + (1 - progress) * originalTop;
+                const currentLeft = progress * 50 + (1 - progress) * originalLeft;
+                
+                // Aplicar transformação progressiva
+                item.style.transform = `translate(${currentLeft - 50}%, ${currentTop - 50}%)`;
+                
+                // Escala progressiva da imagem
+                const scale = 1 - (progress * 0.8);
+                const opacity = 1 - progress;
+                
+                const img = item.querySelector('img');
+                if (img) {
+                    img.style.transform = `scale(${scale})`;
+                    img.style.opacity = opacity;
+                }
+            }
+        });
+        
+        // Animar imagem central
+        if (imagemCentral) {
+            const centralScale = 1 + (progress * 0.5);
+            imagemCentral.style.transform = `scale(${centralScale})`;
+        }
+    }
+});
+
+// Função para animação suave do mapa mental
+function animateMapaMental() {
+    const mapaContainer = document.querySelector('.mapa-container');
+    if (!mapaContainer) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Adicionar animação quando a seção estiver visível
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    observer.observe(mapaContainer);
+}
+
+// Armazenar posições originais dos itens
+let originalPositions = [];
+
+// Inicializar animações
+document.addEventListener('DOMContentLoaded', () => {
+    animateMapaMental();
+    
+    // Armazenar posições originais
+    const mapaItems = document.querySelectorAll('.mapa-item');
+    mapaItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const containerRect = document.querySelector('.mapa-container').getBoundingClientRect();
+        
+        originalPositions.push({
+            top: ((rect.top - containerRect.top) / containerRect.height) * 100,
+            left: ((rect.left - containerRect.left) / containerRect.width) * 100
+        });
+    });
 }); 
